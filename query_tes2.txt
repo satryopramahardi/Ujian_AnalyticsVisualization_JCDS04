@@ -1,0 +1,59 @@
+1. SELECT ID, NAME, CountryCode, District, Population FROM city WHERE CountryCode='IDN' ORDER BY Population DESC LIMIT 10;
+
+2.SELECT  city.ID AS id, city.NAME AS nama_kota, country.NAME AS negara, city.district as district, city.population FROM city LEFT JOIN country ON (city.CountryCode = country.code) ORDER BY city.population DESC LIMIT 10;
+
+3. SELECT CODE, NAME, continent, region, IndepYear AS tahun_merdeka FROM country WHERE (IndepYear IS NOT NULL) ORDER BY IndepYear ASC LIMIT 10;
+
+4. SELECT continent, COUNT(*) AS Jumlah_Negara, SUM(population) AS population, AVG(LifeExpectancy) FROM country GROUP BY continent HAVING COUNT(*)>10 ORDER BY population DESC;
+
+5. SELECT NAME AS nama, continent AS benua, LifeExpectancy AS AngkaHarapanHidup, GNP FROM country WHERE LifeExpectancy > (SELECT AVG(LifeExpectancy) FROM country WHERE continent='Europe') AND continent = 'Asia' ORDER BY AngkaHarapanHidup DESC;
+
+6. SELECT CountryCode, NAME, `Language`, IsOfficial, Percentage FROM countrylanguage LEFT JOIN country ON (country.CODE=countrylanguage.countrycode) WHERE `language`='English' AND IsOfficial = 'T' ORDER BY Percentage DESC LIMIT 10;
+
+7.
+CREATE TABLE asean (
+	negara varchar(100) default null
+)
+
+INSERT INTO `asean` (`negara`) VALUES
+	('Brunei'),
+	('Cambodia'),
+	('East Timor'),
+	('Indonesia'),
+	('Laos'),
+	('Malaysia'),
+	('Myanmar'),
+	('Philippines'),
+	('Singapore'),
+	('Thailand'),
+	('Vietnam');
+
+SELECT  country.`name` AS negara_asean, country.population AS Populasi_Negara, GNP,  city.`name` AS ibukota, city.Population AS Populasi_Ibukota FROM country LEFT JOIN city ON country.Capital=city.ID INNER JOIN asean ON country.`name`=asean.negara ORDER BY negara_asean ASC;
+
+8. 
+CREATE TABLE `G20` (
+	`negara` VARCHAR(50) NULL DEFAULT NULL
+)
+
+INSERT INTO `g20` (`negara`) VALUES
+	('Argentina'),
+	('Australia'),
+	('Brazil'),
+	('Canada'),
+	('China'),
+	('France'),
+	('Germany'),
+	('India'),
+	('Italy'),
+	('Indonesia'),
+	('Japan'),
+	('Mexico'),
+	('Russian Federation'),
+	('Saudi Arabia'),
+	('South Africa'),
+	('South Korea'),
+	('Turkey'),
+	('United Kingdom'),
+	('United States');
+
+SELECT country.`name` AS Negara_G20, country.population AS Populasi_Negara, GNP, city.`name` AS Ibukota, city.population AS Populasi_Ibukota FROM country LEFT JOIN city ON country.Capital=city.ID INNER JOIN g20 ON country.`name`=g20.negara ORDER BY Negara_G20 ASC;
